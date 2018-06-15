@@ -95,7 +95,7 @@ public class Chapter2 {
      * 面试题5：替换空格
      *
      */
-    public static String replaceBlank(String oldStr) throws Exception {
+    public static String replaceBlank1(String oldStr) throws Exception {
         if(oldStr == null || oldStr.length() == 0)
             throw new Exception("String is null or invalid");
 //        String reStr = null;
@@ -104,8 +104,31 @@ public class Chapter2 {
 
     }
 
+    public static String replaceBlank2(StringBuffer str) throws Exception {
+        if(str == null || str.length() <= 0)
+        {
+            throw new Exception("String is null or invalid");
+        }
 
-    public static void main(String[] args) throws Exception {
+        int length = str.length();
+        //下面for循环从头开始不能保证所有测试案例通过，是因为每次替换后，str的length在动态增长，导致无法遍历所有字符
+//        for(int i=0; i<length;++i)//将此此句中的i<length改为i<str.length()即可
+        for(int i=length-1; i>=0; --i)
+         {
+            char ch = str.charAt(i);
+            if(ch == ' ')
+            {
+                str.replace(i, i+1, "%20");
+            }
+        }
+        return str.toString();
+
+    }
+
+
+
+
+        public static void main(String[] args) throws Exception {
 //        int[] nums = {2, 3, 1, 0, 2, 5, 3};
 //        int[] duplication = {-1};
 //        boolean bool = ((Chapter2)null).findRepeatNum(nums, nums.length, duplication);
@@ -122,8 +145,12 @@ public class Chapter2 {
 //        System.out.println(s instanceof Object);
 //        Test te = (Test) new Object();
         String str = "we are happy";
-        String reStr = replaceBlank(str);
-        System.out.println(reStr);
+//            System.out.println();
+        StringBuffer str2 = new StringBuffer("we    are    happy   ");
+//        String reStr = replaceBlank1(str);
+        String reStr2 = replaceBlank2(str2);
+//        System.out.println(reStr);
+        System.out.println(reStr2);
 
 
     }
