@@ -95,8 +95,8 @@ public class Chapter2 {
      * 面试题5：替换空格
      *
      */
-    public static String replaceBlank(String oldStr) throws Exception {
-        if(oldStr == null || oldStr.length() == 0)
+    public static String replaceBlank1(String oldStr) throws Exception {
+        if(oldStr == null || oldStr.length() <= 0)
             throw new Exception("String is null or invalid");
 //        String reStr = null;
         String reStr = oldStr.replaceAll(" ", "%20");
@@ -122,7 +122,7 @@ public class Chapter2 {
 //        System.out.println(s instanceof Object);
 //        Test te = (Test) new Object();
         String str = "we are happy";
-        String reStr = replaceBlank(str);
+        String reStr = replaceBlank1(str);
         System.out.println(reStr);
 
 
