@@ -97,7 +97,7 @@ public class Chapter2 {
      *
      */
     public static String replaceBlank1(String oldStr) throws Exception {
-        if(oldStr == null || oldStr.length() == 0)
+        if(oldStr == null || oldStr.length() <= 0)
             throw new Exception("String is null or invalid");
 //        String reStr = null;
         String reStr = oldStr.replaceAll(" ", "%20");
@@ -146,12 +146,16 @@ public class Chapter2 {
 //        System.out.println(s instanceof Object);
 //        Test te = (Test) new Object();
         String str = "we are happy";
+        String reStr = replaceBlank1(str);
+        System.out.println(reStr);
+
 //            System.out.println();
         StringBuffer str2 = new StringBuffer("we    are    happy   ");
 //        String reStr = replaceBlank1(str);
         String reStr2 = replaceBlank2(str2);
 //        System.out.println(reStr);
         System.out.println(reStr2);
+
 
 
     }
