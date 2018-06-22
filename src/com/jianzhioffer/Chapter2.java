@@ -3,6 +3,7 @@ package com.jianzhioffer;
 import com.test.Test;
 
 import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * Created by lony on 2018/4/26.
@@ -103,7 +104,6 @@ public class Chapter2 {
         return reStr;
 
     }
-
     public static String replaceBlank2(StringBuffer str) throws Exception {
         if(str == null || str.length() <= 0)
         {
@@ -124,6 +124,7 @@ public class Chapter2 {
         return str.toString();
 
     }
+
 
 
 
