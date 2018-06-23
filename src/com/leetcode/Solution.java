@@ -1,9 +1,6 @@
 package com.leetcode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by 12038 on 2018/6/15.
@@ -27,6 +24,7 @@ public class Solution {
 
         return j;
     }
+
     //Remove Duplicates	from Sorted	Array
     public int removeDuplicates(int[] nums) {
         int len = nums.length;
@@ -67,6 +65,7 @@ public class Solution {
         return newArr;
 
     }
+
     //118. Pascal's Triangle
     public List<List<Integer>> generate(int numRows) {
 
@@ -204,7 +203,7 @@ public class Solution {
             else
                 nums1[k--] = nums1[i--];
         }
-        while(j>=0)
+        while(j>=0)//如果剩下的i>=0,无需调整，因为nums1就是目标数组
             nums1[k--] = nums2[j--];
     }
 
@@ -270,6 +269,28 @@ public class Solution {
 
         }
         throw new IllegalArgumentException("not find two nums");
+    }
+
+    //15. 3Sum
+    public List<List<Integer>> threeSum(int[] nums) {
+        if(nums == null || nums.length <= 2)
+        {
+            return null;
+        }
+        int len = nums.length;
+
+        List<List<Integer>> res = null;
+        for(int i=0; i<len-2; ++i)
+        {
+            for(int j=i+1; j<len-1;++j)
+            {
+
+            }
+
+
+        }
+        return null;
+
     }
 
     public static void main(String[] args) {
