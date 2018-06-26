@@ -275,38 +275,155 @@ public class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
         if(nums == null || nums.length <= 2)
         {
-            return null;
+            return new ArrayList<>();//return null又没通过，当是一个[]集合时，也应该return一个[]
+        }
+        int len = nums.length;
+        //为了方便后面的j,k指针的移动
+        Arrays.sort(nums);
+
+        List<List<Integer>> res = new ArrayList<>();
+        for(int i=0; i<len-2; ++i)
+        {
+            int j=i+1;
+            int k=len-1;
+            while(j < k)
+            {
+                if(nums[i] + nums[j] + nums[k] == 0)
+                {
+                    List<Integer> list = new ArrayList<>();
+                    list.add(nums[i]);
+                    list.add(nums[j]);
+                    list.add(nums[k]);
+                    res.add(list);
+                    ++j;
+                    --k;
+
+                    //this two while loop is used to skip duplication solution
+                    while(j < k && nums[j] == nums[j-1]) ++j;
+                    while(j < k && nums[k] == nums[k+1]) --k;
+
+                }
+                else if(nums[i] + nums[j] + nums[k] < 0)
+                {
+                    //if the sum less than 0,move j to forward
+                    ++j;
+                }
+                else
+                {
+                    --k;
+                }
+
+                //this while loop is used to skip duplication solution(i)
+                while(i<len-2 && nums[i] == nums[i+1])
+                {
+                    ++i;
+                }
+            }
+        }
+        return res;
+    }
+
+    //153. Find Minimum in Rotated Sorted Array(轮转后的有序数组)
+    public int findMin(int[] nums) {
+        if(nums == null || nums.length == 0)
+        {
+            throw new IllegalArgumentException("Array is null or Array's length is 0");
+        }
+        int len = nums.length;
+        if(len == 1)
+            return nums[0];
+        else if(len == 2)
+            return nums[0] < nums[1]?nums[0]:nums[1];
+
+        int low = 0;
+        int high = len - 1;
+        while(low < high - 1)//
+        {
+            //判断分片是否有序，要是nums[low]<nums[high],说明此分片上是个有序的片段，最小就是nums[low]
+            if(nums[low] < nums[high])
+                return nums[low];
+
+            int mid = (low + high)/2;
+            //最小的数肯定存在于分片上的nums[low]>nums[high]
+            if(nums[low] > nums[mid])
+                high = mid;
+            else if(nums[mid] > nums[high])
+                low = mid;
+        }
+        return nums[low] < nums[high]?nums[low]:nums[high];
+    }
+    //153. Find Minimum in Rotated Sorted Array(轮转后的有序数组)
+    //上述代码的优化
+    public int findMin2(int[] nums) {
+        if(nums == null || nums.length == 0)
+        {
+            throw new IllegalArgumentException("Array is null or Array's length is 0");
         }
         int len = nums.length;
 
-        List<List<Integer>> res = null;
-        for(int i=0; i<len-2; ++i)
+        int low = 0;
+        int high = len - 1;
+        //判断数组是否被轮转，没有轮转的话，直接返回最小值
+        if(nums[low] < nums[high])
+            return nums[low];
+        while(low < high - 1)//
         {
-            for(int j=i+1; j<len-1;++j)
-            {
-
-            }
 
 
+            int mid = (low + high)/2;
+            //最小的数肯定存在于分片上的nums[low]>nums[high]
+            if(nums[low] > nums[mid])
+                high = mid;
+            else if(nums[mid] > nums[high])
+                low = mid;
         }
-        return null;
+        return nums[high];//循环结束时，最终nums[low]一定大于nums[high]
+    }
 
+    //154. Find Minimum in Rotated Sorted Array II（数组中可以有重复元素）
+    public int findMin3(int[] nums) {
+        if(nums == null || nums.length == 0)
+            throw new IllegalArgumentException("Array is null or Array's length is 0");
+
+        int len = nums.length;
+        int low = 0;
+        int high = len - 1;
+
+        if(len == 2)
+            return nums[0] < nums[1]?nums[0]:nums[1];
+        while(low < high-1)
+        {
+            //数组可能没有轮转
+//            System.out.println("aa");
+            if(nums[low] < nums[high])
+            {
+//                System.out.println("a");
+                return nums[low];
+            }
+            int mid = (low + high)/2;
+            if(nums[low] < nums[mid])
+                low = mid;
+            else if(nums[mid] < nums[low])
+                high = mid;
+            else {
+                low++;
+            }
+        }
+        return nums[high];
     }
 
     public static void main(String[] args) {
         Solution su = new Solution();
+        HashMap<Character, Integer> map2 = new HashMap<>();
+//        int count=0;
+//        if(map2.get('a') == null)
+//            count = 1;
+        map2.put('a', 1);
 
-//        int nums[] = {1, 1, 2};
-//        int i = su.removeDuplicates(nums);
-//
-//        System.out.println(i);
-//        int[] newArr = su.plusOne(nums);
-//        for(int i=0;i<newArr.length; ++i)
-//        {
-//            System.out.println(nums[i]);
-//        }
-//        List<Integer> list = su.getRow2(3);
-        int nums1[] = {3, 4, 3, 4};
+        Integer count = map2.get('a');
+        map2.put('a', ++count);
+        System.out.println("count="+count);
+        int nums1[] = {1,3};
 //        int nums2[] = {1};
 //        su.merge(nums1, 0, nums2, 1);
 //        for(int i=0;i<nums1.length; ++i)
@@ -315,13 +432,8 @@ public class Solution {
 //        }
 //        System.out.println(list.get(2));
 
-        HashMap<Integer, Integer> map = new HashMap<>();
-        int res[] = new int[2];
-        for(int i=0; i<nums1.length; ++i)
-        {
-            map.put(nums1[i], i);
-        }
-        System.out.println(map.size());
+        int a = su.findMin3(nums1);
+        System.out.println(a);
 
 
     }
