@@ -412,6 +412,35 @@ public class Solution {
         return nums[high];
     }
 
+    //9. Palindrome Number
+    public boolean isPalindrome(int x) {
+
+        if(x <0)
+            return false;
+        else if(x<10)
+            return true;
+        else
+        {
+            int tempX = x;
+            int reverse = 0;
+            while(x != 0)
+            {
+                reverse = reverse*10 + x%10;//从低位到高位顺序，取出x的每一位，通过循环一次乘以10，就可以将其转换到对应的高位，实现反转
+                x /= 10;//为取出每一位做准备
+            }
+            if(tempX == reverse)
+                return true;
+        }
+        return false;
+    }
+
+    //74. Search a 2D Matrix
+    public boolean searchMatrix(int[][] matrix, int target) {
+
+        return false;
+    }
+
+
     public static void main(String[] args) {
         Solution su = new Solution();
         HashMap<Character, Integer> map2 = new HashMap<>();
@@ -433,6 +462,7 @@ public class Solution {
 //        System.out.println(list.get(2));
 
         int a = su.findMin3(nums1);
+        boolean a1 = su.isPalindrome(121);
         System.out.println(a);
 
 
