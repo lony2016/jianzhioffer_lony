@@ -565,6 +565,30 @@ public class Solution {
         return false;
     }
 
+    //34. Search for a Range
+    public int[] searchRange(int[] nums, int target) {
+        int len;
+        if(nums == null || (len=nums.length) == 0)
+            return new int[]{-1,-1};
+        int start = -1, end = -1;
+        int low = 0, high = len -1;
+        while(low <= high)
+        {
+            int mid = (low + high)/2;
+            if(target > nums[mid])
+                low = mid + 1;
+            else if( target < nums[mid])
+            {
+                high = mid;
+            }
+            else
+            {
+                while(nums[mid+1] == )
+            }
+        }
+
+        return null;
+    }
     public static void main(String[] args) {
         Solution su = new Solution();
         int nums1[] = {2, 1, 5, 6, 7 ,8};
