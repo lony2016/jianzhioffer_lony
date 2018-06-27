@@ -434,12 +434,64 @@ public class Solution {
         return false;
     }
 
-    //74. Search a 2D Matrix
+    //74. Search a 2D Matrix(我写的)
     public boolean searchMatrix(int[][] matrix, int target) {
 
+        int len = 0, width = 0;
+        if(matrix == null || (len = matrix.length) == 0 || (width = matrix[0].length) == 0)
+            return false;
+        for(int i=0; i<len; ++i)
+        {
+            for(int j=width-1; j>=0; --j)
+            {
+                if(matrix[i][j] < target)
+                {
+                    break;
+                }
+                else if(matrix[i][j] == target)
+                {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
+    //74. Search a 2D Matrix(上述修改版)leetcode击败率提升了一倍
+    public boolean searchMatrix2(int[][] matrix, int target) {
+
+        int row = 0, col = 0;
+        if(matrix == null || (row = matrix.length) == 0 || (col = matrix[0].length) == 0)
+            return false;
+
+        int rowNum = 0;
+        int colNum = col - 1;
+        while(rowNum < row && colNum >=0)
+        {
+            if(target < matrix[rowNum][colNum])
+                --colNum;
+            else if(target > matrix[rowNum][colNum])
+                ++rowNum;
+            else
+                return true;
+        }
+        return false;
+    }
+    //74. Search a 2D Matrix
+    //由于二维数组实际上完全递增的，可以将其看成有序的一维数组进行二分查找
+    public boolean searchMatrix3(int[][] matrix, int target) {
+        int row = 0, col = 0;
+        if(matrix == null || (row = matrix.length) == 0 || (col = matrix[0].length) == 0)
+            return false;
+        int start = 0;
+        int end = row*col - 1;//元素总个数
+        while(start < end)
+        {
+            int mid = (start+end)/2;
+//            if(target < matrix[mid/row])
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
         Solution su = new Solution();
