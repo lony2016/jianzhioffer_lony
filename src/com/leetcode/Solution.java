@@ -412,29 +412,43 @@ public class Solution {
         return nums[high];
     }
 
+    //84. Largest Rectangle in Histogram
+    public int largestRectangleArea(int[] heights) {
+
+        int len = -1;
+        if(heights == null || (len=heights.length) == 0)
+            return 0;
+//        else if(len == 1)
+//            return heights[0];
+        Stack<Integer> st = new Stack<>();//Stack继承自Vector,Vector是线程安全的，比较老的集合，现在几乎已启用
+        st.push(0);
+
+        int i = 0;
+        int sum = 0;
+        while(i < len)
+        {
+            if(st.empty() || heights[i] > heights[st.peek()])
+            {
+                st.push(i++);
+//                System.out.println(i);
+            }
+            else
+            {
+                int t = st.peek();
+                st.pop();
+                System.out.println("i="+i);
+                int tempSum = heights[t]*(st.empty()?i:i-st.peek()-1);
+                sum = sum>tempSum?sum:tempSum;
+            }
+        }
+        return sum;
+    }
+
     public static void main(String[] args) {
         Solution su = new Solution();
-        HashMap<Character, Integer> map2 = new HashMap<>();
-//        int count=0;
-//        if(map2.get('a') == null)
-//            count = 1;
-        map2.put('a', 1);
 
-        Integer count = map2.get('a');
-        map2.put('a', ++count);
-        System.out.println("count="+count);
-        int nums1[] = {1,3};
-//        int nums2[] = {1};
-//        su.merge(nums1, 0, nums2, 1);
-//        for(int i=0;i<nums1.length; ++i)
-//        {
-//            System.out.println(nums1[i]);
-//        }
-//        System.out.println(list.get(2));
-
-        int a = su.findMin3(nums1);
-        System.out.println(a);
-
+        int nums1[] = {1};
+        System.out.println(su.largestRectangleArea(nums1));
 
     }
 }
