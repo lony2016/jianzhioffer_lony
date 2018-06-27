@@ -485,10 +485,15 @@ public class Solution {
             return false;
         int start = 0;
         int end = row*col - 1;//元素总个数
-        while(start < end)
+        while(start <= end)
         {
-            int mid = (start+end)/2;
-//            if(target < matrix[mid/row])
+            int mid = (start + end)/2;
+            if(target < matrix[mid/col][mid%col])
+                end = mid - 1;
+            else if(target > matrix[mid/col][mid%col])
+                start = mid + 1;
+            else
+                return true;
         }
         return false;
     }
