@@ -485,9 +485,9 @@ public class Solution {
             return false;
         int start = 0;
         int end = row*col - 1;//元素总个数
-        while(start < end)
+        while(start <= end)
         {
-            int mid = (start+end)/2;
+            int mid = (start + end)/2;
             if(target < matrix[mid/col][mid%col])
                 end = mid - 1;
             else if(target > matrix[mid/col][mid%col])
@@ -498,30 +498,78 @@ public class Solution {
         return false;
     }
 
+    //84. Largest Rectangle in Histogram
+    public int largestRectangleArea(int[] heights) {
+
+        /**
+         * 使用栈来解决的
+         */
+        int len = -1;
+        if (heights == null || (len = heights.length) == 0)
+            return 0;
+        else if(len == 1)
+            return heights[0];
+        Stack<Integer> st = new Stack<>();
+        /**
+         * 为了更好的处理最后一个元素的情况，我们在实际中会插入一个高度为0的bar，这
+         * 样就能pop出最后一个bar并计算了。
+
+        int modHeights[] = new int[len+1];
+        System.arraycopy(heights, 0, modHeights, 0, len);
+        len = len + 1;*/
+        int i = 0;
+        int sum = 0;
+        while(i < len)
+        {
+            if(st.empty() || heights[i] >= heights[st.peek()])
+            {
+                st.push(i);
+                i++;
+            }
+            else
+            {
+                int temp = st.peek();
+                st.pop();
+                //这里还需要考虑stack为空的情况
+                int tempSum = heights[temp]*(st.empty()?i:i-st.peek()-1);
+                sum = sum > tempSum? sum : tempSum;
+            }
+        }
+        while(!st.empty())
+        {
+            int temp = st.peek();
+            st.pop();
+            int tempSum = heights[temp]*(st.empty()?i:i-st.peek()-1);
+            sum = sum> tempSum?sum:tempSum;
+        }
+        return sum;
+    }
+
+    //240. Search a 2D Matrix II
+    public boolean searchMatrixII(int[][] matrix, int target) {
+        int row , col;
+        if(matrix == null || (row = matrix.length) == 0 || (col = matrix[0].length) == 0)
+            return false;
+        int i=0, j=col-1;//从矩阵的右上角开始遍历
+        while(i<row && j>=0)
+        {
+            if(target > matrix[i][j])
+                ++i;
+            else if(target < matrix[i][j])
+                --j;
+            else
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         Solution su = new Solution();
-        HashMap<Character, Integer> map2 = new HashMap<>();
-//        int count=0;
-//        if(map2.get('a') == null)
-//            count = 1;
-        map2.put('a', 1);
-
-        Integer count = map2.get('a');
-        map2.put('a', ++count);
-        System.out.println("count="+count);
-        int nums1[] = {1,3};
-//        int nums2[] = {1};
-//        su.merge(nums1, 0, nums2, 1);
-//        for(int i=0;i<nums1.length; ++i)
-//        {
-//            System.out.println(nums1[i]);
-//        }
-//        System.out.println(list.get(2));
-
-        int a = su.findMin3(nums1);
-        boolean a1 = su.isPalindrome(121);
-        System.out.println(a);
-
+        int nums1[] = {2, 1, 5, 6, 7 ,8};
+        int sum = su.largestRectangleArea(nums1);
+        System.out.println(sum);
 
     }
 }
