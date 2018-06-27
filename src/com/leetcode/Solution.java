@@ -504,26 +504,27 @@ public class Solution {
         int len = -1;
         if (heights == null || (len = heights.length) == 0)
             return 0;
-//        else if(len == 1)
-//            return heights[0];
-        Stack<Integer> st = new Stack<>();//Stack继承自Vector,Vector是线程安全的，比较老的集合，现在几乎已启用
-        st.push(0);
-
+        else if(len == 1)
+            return heights[0];
+        Stack<Integer> st = new Stack<>();
         int i = 0;
         int sum = 0;
-        while (i < len) {
-            if (st.empty() || heights[i] > heights[st.peek()]) {
+        while(i < len)
+        {
+            if(st.empty() || heights[i] >= heights[st.peek()])
+            {
                 st.push(i++);
-//                System.out.println(i);
-            } else {
-                int t = st.peek();
+            }
+            else
+            {
+                int temp = st.peek();
                 st.pop();
-                System.out.println("i=" + i);
-                int tempSum = heights[t] * (st.empty() ? i : i - st.peek() - 1);
-                sum = sum > tempSum ? sum : tempSum;
+                int tempSum = heights[temp]*(st.empty()?i:i-st.peek()-1);
+                return sum > tempSum? sum : tempSum;
             }
         }
         return sum;
+
     }
 
     public static void main(String[] args) {
