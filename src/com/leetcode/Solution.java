@@ -412,11 +412,92 @@ public class Solution {
         return nums[high];
     }
 
+    //9. Palindrome Number
+    public boolean isPalindrome(int x) {
+
+        if(x <0)
+            return false;
+        else if(x<10)
+            return true;
+        else
+        {
+            int tempX = x;
+            int reverse = 0;
+            while(x != 0)
+            {
+                reverse = reverse*10 + x%10;//从低位到高位顺序，取出x的每一位，通过循环一次乘以10，就可以将其转换到对应的高位，实现反转
+                x /= 10;//为取出每一位做准备
+            }
+            if(tempX == reverse)
+                return true;
+        }
+        return false;
+    }
+
+    //74. Search a 2D Matrix(我写的)
+    public boolean searchMatrix(int[][] matrix, int target) {
+
+        int len = 0, width = 0;
+        if(matrix == null || (len = matrix.length) == 0 || (width = matrix[0].length) == 0)
+            return false;
+        for(int i=0; i<len; ++i)
+        {
+            for(int j=width-1; j>=0; --j)
+            {
+                if(matrix[i][j] < target)
+                {
+                    break;
+                }
+                else if(matrix[i][j] == target)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    //74. Search a 2D Matrix(上述修改版)leetcode击败率提升了一倍
+    public boolean searchMatrix2(int[][] matrix, int target) {
+
+        int row = 0, col = 0;
+        if(matrix == null || (row = matrix.length) == 0 || (col = matrix[0].length) == 0)
+            return false;
+
+        int rowNum = 0;
+        int colNum = col - 1;
+        while(rowNum < row && colNum >=0)
+        {
+            if(target < matrix[rowNum][colNum])
+                --colNum;
+            else if(target > matrix[rowNum][colNum])
+                ++rowNum;
+            else
+                return true;
+        }
+        return false;
+    }
+    //74. Search a 2D Matrix
+    //由于二维数组实际上完全递增的，可以将其看成有序的一维数组进行二分查找
+    public boolean searchMatrix3(int[][] matrix, int target) {
+        int row = 0, col = 0;
+        if(matrix == null || (row = matrix.length) == 0 || (col = matrix[0].length) == 0)
+            return false;
+        int start = 0;
+        int end = row*col - 1;//元素总个数
+        while(start < end)
+        {
+            int mid = (start+end)/2;
+//            if(target < matrix[mid/row])
+        }
+        return false;
+    }
+
     //84. Largest Rectangle in Histogram
     public int largestRectangleArea(int[] heights) {
 
         int len = -1;
-        if(heights == null || (len=heights.length) == 0)
+        if (heights == null || (len = heights.length) == 0)
             return 0;
 //        else if(len == 1)
 //            return heights[0];
@@ -425,20 +506,16 @@ public class Solution {
 
         int i = 0;
         int sum = 0;
-        while(i < len)
-        {
-            if(st.empty() || heights[i] > heights[st.peek()])
-            {
+        while (i < len) {
+            if (st.empty() || heights[i] > heights[st.peek()]) {
                 st.push(i++);
 //                System.out.println(i);
-            }
-            else
-            {
+            } else {
                 int t = st.peek();
                 st.pop();
-                System.out.println("i="+i);
-                int tempSum = heights[t]*(st.empty()?i:i-st.peek()-1);
-                sum = sum>tempSum?sum:tempSum;
+                System.out.println("i=" + i);
+                int tempSum = heights[t] * (st.empty() ? i : i - st.peek() - 1);
+                sum = sum > tempSum ? sum : tempSum;
             }
         }
         return sum;
@@ -446,7 +523,7 @@ public class Solution {
 
     public static void main(String[] args) {
         Solution su = new Solution();
-
+        HashMap<Character, Integer> map2 = new HashMap<>();
         int nums1[] = {1};
         System.out.println(su.largestRectangleArea(nums1));
 
