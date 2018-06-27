@@ -488,7 +488,12 @@ public class Solution {
         while(start < end)
         {
             int mid = (start+end)/2;
-//            if(target < matrix[mid/row])
+            if(target < matrix[mid/col][mid%col])
+                end = mid - 1;
+            else if(target > matrix[mid/col][mid%col])
+                start = mid + 1;
+            else
+                return true;
         }
         return false;
     }
