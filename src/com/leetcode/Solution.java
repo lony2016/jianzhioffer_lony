@@ -571,29 +571,105 @@ public class Solution {
         if(nums == null || (len=nums.length) == 0)
             return new int[]{-1,-1};
         int start = -1, end = -1;
+        int res[] = new int[]{-1, -1};
         int low = 0, high = len -1;
         while(low <= high)
         {
             int mid = (low + high)/2;
+            System.out.println(11);
             if(target > nums[mid])
-                low = mid + 1;
-            else if( target < nums[mid])
             {
-                high = mid;
+                low = mid + 1;
             }
             else
             {
-                while(nums[mid+1] == )
+                high = mid - 1;
             }
         }
+        //循环结束时，low>high的，说明此时low位置左边的数都小于target;
+        //
+        if(low < len && nums[low] == target)
+            res[0] = low;
+        else//如果low的位置数都不等于target,那其右边位置的数更大于target
+        {
+            res[0] = res[1] = -1;
+            return res;
+        }
 
-        return null;
+        high = len - 1;
+        while(low <= high)
+        {
+            int mid = (low + high)/2;
+            if(target >= nums[mid])
+                low = mid+1;
+            else
+                high = mid-1;//当low=high时，target<nums[mid],high会减一
+        }
+        res[1] = high;
+        return res;
     }
+
+    //35. Search Insert Position
+    public int searchInsert(int[] nums, int target) {
+        if(nums == null)
+            throw new IllegalArgumentException("Array is null");
+        int len;
+        if((len=nums.length) == 0)
+            return 0;
+        int low = 0;
+        int high = len - 1;
+
+        while(low <= high)
+        {
+            int mid = (low + high)/2;
+            if(nums[mid] < target)
+                low = mid + 1;
+            else if(nums[mid] > target)
+                high = mid -1;
+            else
+            {
+                return mid;
+            }
+        }
+        return low;
+    }
+
+    //162. Find Peak Element
+    public int findPeakElement(int[] nums) {
+        if(nums == null || nums.length == 0)
+            throw new IllegalArgumentException("Array is null or Array's length is o");
+        int len = nums.length;
+        if(len == 1)
+            return 0;
+        int low=0,high=len-1;
+        int mid=0;
+        while(low <= high)
+        {
+            mid = (low+high)/2;
+            //if((mid==0 && nums[mid]>nums[mid+1]) ||(mid == len-1 && nums[mid]>nums[mid-1]) ||(nums[mid]>nums[mid-1] && nums[mid]>nums[mid+1]))
+            //这种判断对于[1,2]会出现数组越界的出错
+            //mid == 0同时
+            if((mid==0 || nums[mid]>nums[mid-1]) &&(mid==len-1 || nums[mid]>nums[mid+1]))
+            {
+                return mid;
+            }
+            else if(mid>0 && nums[mid-1]>nums[mid])
+            {
+                high = mid - 1;
+            }
+            else
+            {
+                low = mid + 1;
+            }
+        }
+        return mid;
+    }
+
     public static void main(String[] args) {
         Solution su = new Solution();
         int nums1[] = {2, 1, 5, 6, 7 ,8};
-        int sum = su.largestRectangleArea(nums1);
-        System.out.println(sum);
+        int nums2[] = {2, 8, 8, 8, 8 ,9};
+        System.out.println(su.searchRange(nums2,8));
 
     }
 }
