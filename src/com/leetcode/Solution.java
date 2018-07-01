@@ -514,9 +514,9 @@ public class Solution {
          * 为了更好的处理最后一个元素的情况，我们在实际中会插入一个高度为0的bar，这
          * 样就能pop出最后一个bar并计算了。
 
-        int modHeights[] = new int[len+1];
-        System.arraycopy(heights, 0, modHeights, 0, len);
-        len = len + 1;*/
+         int modHeights[] = new int[len+1];
+         System.arraycopy(heights, 0, modHeights, 0, len);
+         len = len + 1;*/
         int i = 0;
         int sum = 0;
         while(i < len)
@@ -664,6 +664,161 @@ public class Solution {
         }
         return mid;
     }
+
+    //268. Missing Number
+    public int missingNumber(int[] nums) {
+        if(nums == null || nums.length == 0)
+            throw new IllegalArgumentException("array is null or length is 0");
+        int len = nums.length;
+        /*if(len == 1)
+        {
+            return 0;
+        }*/
+        //[0]返回出错，是因为应该有0，1两个数，少了1，应该返回1
+
+        int bitmap[] = new int[len+1];
+        int i;
+        int bLen = len + 1;
+        for(i=0;i<len; ++i)
+        {
+            bitmap[nums[i]] = 1;
+        }
+        for(i=0;i<bLen;++i)
+        {
+            if(bitmap[i] == 0)
+                return i;
+        }
+        return 0;
+    }
+    //268. Missing Number
+    public int missingNumber2(int[] nums) {
+        /**
+         * 一种可行的具有线性时间复杂度的算法是求和。
+         * 比加法更高效率的运算是异或(XOR)运算
+         * 异或运算的一个重要性质是，相同的数异或得0，不同的数异或不为0
+         * 首先将0到n这些数进行异或运算， 然后对输入的数组进行异或运算，
+         * 最后将两个结果进行异或运算，结果便是漏掉的 数字，因为其他数字
+         * 在两个数组中都是成对出现的，异或运算会得到0
+         */
+        if(nums == null || nums.length == 0)
+            throw new IllegalArgumentException("array is null or length is 0");
+        int len = nums.length;
+        int n = len+1;
+        int res = 0;
+        for(int i=0; i<n; ++i)
+        {
+            res ^= i;
+        }
+        for(int num:nums)
+        {
+            res ^= num;
+        }
+        return res;
+    }
+
+    //231. Power of Two
+    public boolean isPowerOfTwo(int n) {
+        if(n<1)
+            return false;
+        // boolean hasOne = true;
+        while(n>1)
+        {
+            if((n&1) == 1)
+            {
+                return false;
+            }
+            else
+            {
+                n = n>>1;
+            }
+        }
+        return true;
+    }
+    //231. Power of Two
+    public boolean isPowerOfTwo2(int n) {
+        if(n<1)
+            return false;
+        return (n&(n-1)) == 0;//2的n次幂只有最高位为1，减去1之后，除去最高位，都是0，做&运算为0
+    }
+
+
+    //104. Maximum Depth of Binary Tree
+    public class TreeNode {
+       int val;
+       TreeNode left;
+       TreeNode right;
+       TreeNode(int x) { val = x; }
+    }
+    public int maxDepth(TreeNode root) {
+        if(root == null)
+            return 0;
+        int leftDepth = maxDepth(root.left);
+        int rightDepth = maxDepth(root.right);
+        int treeDepth = leftDepth>rightDepth?(leftDepth+1):(rightDepth+1);
+        return treeDepth;
+    }
+
+    //111. Minimum Depth of Binary Tree
+    public int minDepth(TreeNode root) {
+        /**if(root == null)
+            return 0;
+
+        int leftHeight = minDepth(root.left);
+        int rightHeight = minDepth(root.right);
+        int treeHeight = leftHeight<rightHeight?leftHeight:rightHeight;
+        return treeHeight;*/
+        //当一个节点只有一个自节点时，左子树的高度为1，右子树的高度为0，
+        // 但其最小树的高度是从叶子节点到根节点，右子树没有叶子节点，所以，树的高度还是2，而不是1，所以上述代码就不对了
+        if(root == null)
+            return 0;
+        if(root.left == null && root.right == null)
+        {
+            return 1;
+        }
+
+        int left = root.left != null?minDepth(root.left):Integer.MAX_VALUE;//当左结点为空时，将其高度设置成最大值，这样右子树不为零时，就可以取右子树的高度了
+        int right = root.right != null?minDepth(root.right):Integer.MAX_VALUE;
+
+        int minHeigt = left<right?left:right;
+        return minHeigt + 1;
+    }
+
+    //105. Construct Binary Tree from Preorder and Inorder Traversal（前序和中序）
+    Map<Integer, Integer> inMap = new HashMap<>();
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        if(preorder == null || inorder == null )
+            return null;
+        int preLen = preorder.length;
+        int inLen = inorder.length;
+        //将inorder数组映射到map中，方便查找根节点所在的索引
+        for(int i=0; i<inLen; ++i)
+        {
+            inMap.put(inorder[i], i);
+        }
+        return build(preorder, 0, preLen-1, inorder, 0, inLen-1);
+    }
+
+    public TreeNode build(int[] preorder, int sPre, int ePre, int[] inorder, int sIn, int eIn)
+    {
+        //结束条件
+        if(sPre > ePre || sIn > eIn)
+            return null;
+
+        //构建当前结点
+        TreeNode node = new TreeNode(preorder[sPre]);
+        //找到当前根节点在inorder中的索引
+        int mid = inMap.get(preorder[sPre]);
+        //计算左子树或者选择计算右子树长度，以备接下来使用
+        int left = mid - sIn;
+        //构建左子树
+        node.left = build(preorder, sPre+1, sPre+left, inorder, sIn, mid-1);
+        //构建右子树
+        node.right = build(preorder,sPre+left+1, ePre, inorder, mid+1, eIn);
+
+        return node;
+    }
+
+
 
     public static void main(String[] args) {
         Solution su = new Solution();
