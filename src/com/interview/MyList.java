@@ -6,10 +6,10 @@ import java.util.Map;
 
 /**
  * Created by lony on 2018/7/3.
- * 本部分是结合自己和从别人口中得知的面试时被问到的算法题总结
+ * 本部分是结合自己和从别人口中得知的面试时被问到的算法题List相关的总结总结
  *
  */
-public class Interview {
+public class MyList {
 
     //单链表结点，结合leetcode写法
     class ListNode{
@@ -38,6 +38,5 @@ public class Interview {
         }
         return false;
     }
-
 
 }
