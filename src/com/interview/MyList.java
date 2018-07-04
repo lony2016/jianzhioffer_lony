@@ -115,6 +115,59 @@ public class MyList {
         return length;
     }
 
+    //160. Intersection of Two Linked Lists:这题需要得到两个链表的交接点
+
+    /**
+     * 方法一：将其中一个链表将其变成环形链表，再利用判断链表是否有环的思路和找出环入口节点的方法来达到目的，已在leetcode Accept
+     * 方法二：求出连个链表的长度，然后先让长链表遍历到两个长度差额的位置，然后两者同时遍历，找出相交点
+     */
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        int aLen = 0;
+        int bLen = 0;
+        ListNode pA = headA;
+        ListNode pB = headB;
+        while(pA != null)
+        {
+            ++aLen;
+            pA = pA.next;
+        }
+
+        while(pB != null)
+        {
+            ++bLen;
+            pB = pB.next;
+        }
+
+        pA = headA;
+        pB = headB;
+        if(aLen > bLen)
+        {
+            for(int i=aLen-bLen;i>0;--i)
+            {
+                pA = pA.next;
+            }
+        }
+        else
+        {
+            for(int i=bLen-aLen;i>0;--i)
+            {
+                pB = pB.next;
+            }
+        }
+//        while(pA != null && pA != pB)
+        while(pA != pB)//不需要pA !=null，因为当pA为空时，pB也一定为空
+        {
+            pA = pA.next;
+            pB = pB.next;
+        }
+        return pA;
+    }
+
+    /**
+     * ToDo：
+     * 扩展问题一：已知单链表的头指针，查找到倒数第K个节点
+     * 扩展问题二：已知单链表的头结点，查找到链表的中间节点
+     */
 
 
 }
