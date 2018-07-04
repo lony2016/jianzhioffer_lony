@@ -819,13 +819,14 @@ public class Solution {
 
 
 
+
+
     public static void main(String[] args) {
         Solution su = new Solution();
         int nums1[] = {2, 1, 5, 6, 7 ,8};
         int nums2[] = {2, 8, 8, 8, 8 ,9};
         System.out.println(su.searchRange(nums2,8));
 
-        ArrayList
 
     }
 }
