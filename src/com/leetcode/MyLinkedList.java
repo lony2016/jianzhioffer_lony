@@ -15,6 +15,7 @@ public class MyLinkedList {
             next = null;
         }
     }
+
     //83. Remove Duplicates from Sorted List
     public ListNode deleteDuplicates(ListNode head) {
         ListNode node = head;
@@ -32,5 +33,13 @@ public class MyLinkedList {
         }
         return head;
     }
+
+    //82. Remove Duplicates from Sorted List II
+    public ListNode deleteDuplicates2(ListNode head) {
+        return null;
+    }
+
+    //
+
 
 }
