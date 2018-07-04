@@ -39,4 +39,40 @@ public class MyList {
         return false;
     }
 
+    //求有环链表的环的长度:leetcode上没有
+    public int cycleLength(ListNode head)
+    {
+        if(head == null || head.next == null)
+            return 0;
+        //先要判断是否有环
+        ListNode slow = head;
+        ListNode fast = head;
+        boolean first = false;
+        boolean second = false;
+
+        int length = 0;
+        while(fast != null || fast.next != null)
+        {
+            slow = slow.next;
+            fast = fast.next.next;
+            if(second == true && fast == slow)//第二次相遇，结束循环，计算长度
+            {
+                break;
+            }
+            if(fast == slow && first == false)//第一次相遇证明有环，再让其循环一次就可以找到
+            {
+                first = true;
+                second = true;
+            }
+            //计数
+            if(first == true)
+            {
+                ++length;
+            }
+        }
+        return length;
+    }
+    //
+
+
 }
