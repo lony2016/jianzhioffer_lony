@@ -36,6 +36,10 @@ public class MyLinkedList {
 
     //82. Remove Duplicates from Sorted List II
     public ListNode deleteDuplicates2(ListNode head) {
+        //处理可能删除头节点的方法都肯定需要一个辅助结点来帮助
+        ListNode helper = new ListNode(-1);
+        helper.next = head;
+        ListNode
         return null;
     }
 
