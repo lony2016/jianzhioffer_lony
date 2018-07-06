@@ -63,21 +63,21 @@ public class Main {
         return price;
     }
 
-    int n, money, i;
-	while (cin >> n) {
-        if(n >= 1 && n <= 10 ^ 9) {
-            money = n;
-            n = n - 1;
-            i = 2;
-            while (n - i >= 0)
-            {
-                n = n - i;
-                money -= 2;
-                i++;
-            }
-            cout << money << endl;
-        }
-    }
-	return 0;
+//    int n, money, i;
+//	while (cin >> n) {
+//        if(n >= 1 && n <= 10 ^ 9) {
+//            money = n;
+//            n = n - 1;
+//            i = 2;
+//            while (n - i >= 0)
+//            {
+//                n = n - i;
+//                money -= 2;
+//                i++;
+//            }
+//            cout << money << endl;
+//        }
+//    }
+//	return 0;
 
 }
