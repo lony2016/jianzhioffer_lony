@@ -112,6 +112,130 @@ public class MyLinkedList {
         }
         return helper.next;
     }
+    //147. Insertion Sort List
+    public ListNode insertionSortList(ListNode head) {
+        if(head == null)
+            return null;
+        ListNode p = head.next;//用来遍历的结点
+        ListNode fakeHead = new ListNode(0);
+        fakeHead.next = head;
+        fakeHead.next.next = null;//插入第一个节点后，将其尾结点设置为空
+        while(p!=null)//从第二个节点开始遍历
+        {
+            //
+            ListNode p1 = fakeHead.next;
+            ListNode pre = fakeHead;
+            while(p1!=null && p.val >= p1.val)
+            {
+                pre = p1;
+                p1 = p1.next;
+            }
 
+            ListNode temp = p;//要插入的结点
+            p = p.next;
+            //将节点插入到已拍好序的链表中
+            temp.next = pre.next;
+            pre.next = temp;
+        }
+        return fakeHead.next;
+    }
+    public ListNode insertionSortList2(ListNode head) {
+        ListNode helper = new ListNode(0);
+        ListNode pre = helper;
+        while(head!=null)
+        {
+            //加此句是重要的优化
+            /**需要新插入的结点没有pre节点大，
+             * 才需要将其从头开始遍历寻找需要插入的位置（即插入的节点的位置肯定在当前pre节点之前）,
+             *否则直接从pre结点往下开始插入
+             */
+            if(pre.val > head.val)
+                pre = helper;
+            while(pre.next!=null && pre.next.val <= head.val)
+                pre = pre.next;
+            //将p结点插入
+            ListNode p = head;//记下要插入的结点
+            head = head.next;//结点必须先移动
+            p.next = pre.next;
+            pre.next = p;
+        }
+        return helper.next;
+    }
+
+    public ListNode sortList(ListNode head) {
+        if(head == null || head.next == null)
+            return head;
+        /**
+         *由于要求O(nlogN)的复杂度
+         *所以，可以找到链表的中间结点，然后采用对两个链表分别排序，然后合并两个有序列表的方式
+         */
+        //利用快慢指针找到链表的中间结点
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast!=null && fast.next != null)
+        {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        //将链表切分成两部分
+        fast = slow.next;
+        slow.next = null;
+
+        /**
+         //对两部分链表分别进行排序操作
+         ListNode slowHead = sortListNode(head);
+         ListNode fastHead = sortListNode(fast);*/
+        //此处进行优化，递归调用
+        ListNode slowHead = sortList(head);
+        ListNode fastHead = sortList(fast);
+
+        return mergeList(slowHead, fastHead);
+    }
+
+    /**public ListNode sortListNode(ListNode head)
+     {
+     ListNode dummy = new ListNode(0);
+     ListNode pre = dummy;
+     while(head!=null)
+     {
+     if(pre.val > head.val)
+     pre = dummy;
+     while(pre.next != null && pre.next.val <= head.val)
+     pre = pre.next;
+     //将结点head插入pre后面
+     ListNode p = head;
+     head = head.next;
+     p.next = pre.next;
+     pre.next = p;
+     }
+     return dummy.next;
+     }*/
+
+    public ListNode mergeList(ListNode l1, ListNode l2)
+    {
+        ListNode dummy = new ListNode(0);
+        ListNode p = dummy;
+        while(l1!=null && l2!=null)
+        {
+            if(l1.val < l2.val)
+            {
+                p.next = l1;
+                l1 = l1.next;
+            }
+            else
+            {
+                p.next = l2;
+                l2 = l2.next;
+            }
+            p = p.next;
+        }
+
+        if(l1!=null)
+            p.next = l1;
+        if(l2!=null)
+            p.next = l2;
+
+        return dummy.next;
+    }
 
 }
