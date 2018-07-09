@@ -8,16 +8,15 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner cin = new Scanner(System.in);
-//        int n = cin.nextInt();
-//        for (int i = 0; i < n; ++i) {
-//            int m = cin.nextInt();
-//            int sum = sum(m);
-//            System.out.println(sum);
-//        }
-        while(cin.hasNextInt())
+        int m = cin.nextInt();
+        int n = cin.nextInt();
+        int[][] pv = new int[m][2];
+        for(int i=0; i<m;i++)
         {
-            int m = cin.nextInt();
-            System.out.println(stockPrice(m));
+            for(int j=0; j<2;++j)
+            {
+                pv[i][j] = cin.nextInt();
+            }
         }
     }
 

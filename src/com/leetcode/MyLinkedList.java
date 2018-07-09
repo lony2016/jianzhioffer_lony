@@ -71,7 +71,47 @@ public class MyLinkedList {
         return helper.next;
     }
 
-    //
+    //92.Reverse Linked List II
+    public ListNode reverseBetween(ListNode head, int m, int n) {
+
+        if(head == null)
+            return null;
+        int start = 0;
+        int end = 0;
+        ListNode reverse = head;
+        //反转开始的结点，也是反转部分的尾节点
+        ListNode endReverse = head;
+
+        ListNode helper = new ListNode(0);
+        helper.next = head;
+        ListNode p = helper;//遍历指针
+        ListNode revHead = helper;//翻转时的头指针
+        if(m < n)
+        {
+            while(p!=null && start<m)
+            {
+                revHead = p;
+                p = p.next;
+                ++start;
+            }
+            //找到了反转开始的结点
+            reverse = p;
+            endReverse = p;
+            end = start;
+            while(p!=null && end<=n)
+            {
+                reverse = p;//先记录下要反转的结点
+                p = p.next;//p指向下一节点
+                //头插法反转
+                reverse.next = revHead.next;
+                revHead.next = reverse;
+                //将反转部分的尾节点指向链表的剩余部分
+                endReverse.next = p;
+                ++end;
+            }
+        }
+        return helper.next;
+    }
 
 
 }
