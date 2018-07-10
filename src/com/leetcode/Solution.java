@@ -817,7 +817,22 @@ public class Solution {
         return node;
     }
 
-
+    //7. Reverse Integer
+    public int reverse(int x) {
+        int res = 0;
+        //int temp = Math.abs(x);
+        //while(temp > 0)
+        while(x!=0)
+        {
+            if(res>Integer.MAX_VALUE/10 || res<Integer.MIN_VALUE/10)//也可移动循环后判断起步更好
+                return 0;
+            res = res*10 + x%10;
+            x /= 10;
+        }
+        /**if(x<0)
+         return -res;*/
+        return res;
+    }
 
 
 
