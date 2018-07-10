@@ -162,6 +162,7 @@ public class MyLinkedList {
         return helper.next;
     }
 
+    //
     public ListNode sortList(ListNode head) {
         if(head == null || head.next == null)
             return head;
@@ -172,14 +173,24 @@ public class MyLinkedList {
         //利用快慢指针找到链表的中间结点
         ListNode slow = head;
         ListNode fast = head;
-        while(fast!=null && fast.next != null)
+        ListNode pre = head;//后增加的
+        while(fast!=null && fast.next != null)//要不改动此循环判断条件，要不改动下面的切分点
         {
+            //如果不改变循环条件，就增加下面这个语句
+            pre = slow;
+
             slow = slow.next;
             fast = fast.next.next;
         }
         //将链表切分成两部分
-        fast = slow.next;
-        slow.next = null;
+        /**这儿结合上面的while(fast!=null && fast.next != null)
+         *做判断的话会出现，如果有两个结点，slow部分始终会被分到两个结点
+         *而fast始终为空导致循环往复出现栈溢出
+         */
+        /*fast = slow.next;
+        slow.next = null;*/
+        fast = slow;
+        pre.next = null;
 
         /**
          //对两部分链表分别进行排序操作
@@ -217,5 +228,7 @@ public class MyLinkedList {
 
         return dummy.next;
     }
+
+
 
 }
