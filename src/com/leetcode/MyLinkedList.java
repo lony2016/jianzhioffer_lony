@@ -202,24 +202,6 @@ public class MyLinkedList {
 
         return mergeList(slowHead, fastHead);
     }
-    /**public ListNode sortListNode(ListNode head)
-     {
-     ListNode dummy = new ListNode(0);
-     ListNode pre = dummy;
-     while(head!=null)
-     {
-     if(pre.val > head.val)
-     pre = dummy;
-     while(pre.next != null && pre.next.val <= head.val)
-     pre = pre.next;
-     //将结点head插入pre后面
-     ListNode p = head;
-     head = head.next;
-     p.next = pre.next;
-     pre.next = p;
-     }
-     return dummy.next;
-     }*/
     public ListNode mergeList(ListNode l1, ListNode l2)
     {
         ListNode dummy = new ListNode(0);
