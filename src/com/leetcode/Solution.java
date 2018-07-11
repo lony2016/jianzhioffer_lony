@@ -834,7 +834,34 @@ public class Solution {
         return res;
     }
 
+    //45. Jump Game II
+    public int jump(int[] nums) {
+        if (nums == null || nums.length == 0){
+            return -1;
+        }
 
+        //数组中只有一个数时，相当于就在末尾，直接返回0，不需要任何步数
+        int countStep = 0;//统计走过的步数
+        int lastReach = 0;//上一个位置，所能到达的最远位置
+        int cur = 0;//当前i位置能达到的最远
+        int len = nums.length;
+        for(int i=0; i<len; ++i)
+        {
+            if(i>cur)//如果当前位置大于上一步所能达到的最远位置
+                return -1;
+            if(i > 0 && cur >= len - 1 )//i>0是为了防止数组中只有一个数时
+            {
+                return ++countStep;
+            }
+            if(i > lastReach)//超出上一步所能走出的范围，步数+1
+            {
+                lastReach = cur;
+                ++countStep;
+            }
+            cur = cur > (i + nums[i])?cur:(i+nums[i]);
+        }
+        return countStep;
+    }
 
 
 
