@@ -87,4 +87,43 @@ public class Greedy {
             return resIndex;
         }
     }
+
+    //135. Candy
+    public int candy(int[] ratings) {
+        int len = -1;
+        if(ratings == null || (len = ratings.length) == 0)
+            return 0;
+        //int candy = len;
+        int[] candy = new int[len];
+        //每人先发一颗糖
+        for(int i=0; i<len; ++i)
+        {
+            candy[i] = 1;
+        }
+        //从左往右，i位置比i+1小的，i+1位置糖果加1
+        for(int i=0; i<len-1; ++i)
+        {
+            if(ratings[i] < ratings[i+1])
+            {
+                candy[i+1] = candy[i] + 1;
+            }
+        }
+        int resCandy = 0;
+        //从右向左，i位置比i+1位置大，且candy[i] <= candy[i+1]，i位置糖果加1
+        for(int i=len-2; i>=0; --i)
+        {
+            if(ratings[i] > ratings[i+1] && candy[i] <= candy[i+1])
+            {
+                candy[i] = candy[i+1] + 1;
+            }
+            resCandy += candy[i+1];
+        }
+
+        resCandy += candy[0];//+ len;//别忘记每人先发了一颗糖，所以要加len
+
+        return resCandy;
+    }
+
+
+
 }
