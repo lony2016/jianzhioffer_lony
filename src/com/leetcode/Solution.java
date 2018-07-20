@@ -836,6 +836,7 @@ public class Solution {
         return res;
     }
 
+<<<<<<< HEAD
     //
     public int calculate(String s) {
         if(s == null)
@@ -845,7 +846,6 @@ public class Solution {
         int num;
 
         char[] ch = s.toCharArray();
-
         int length = ch.length;
         char op = '+';
         for(int i=0; i<length;)
