@@ -834,7 +834,44 @@ public class Solution {
         return res;
     }
 
+    //78. Subsets
+    public List<List<Integer>> subsets(int[] nums) {
+        int len = -1;
+        List<List<Integer>> results = new ArrayList<>();
+        if(nums == null || (len = nums.length) == 0)
+        {
+            return results;
+        }
+        List<Integer> result = new ArrayList<>();
+        for(int i=0; i<=len; ++i)
+        {
+            backtracing(results, result, nums, len, i, 0);
+        }
 
+        return results;
+
+
+    }
+    public void backtracing(List<List<Integer>> results, List<Integer> result, int[] nums, int length, int k, int start)
+    {
+        if(k < 0)
+        {
+            return;
+        }
+        else if(k == 0)
+        {
+            results.add(new ArrayList<Integer>(result));
+        }
+        else
+        {
+            for(int i=start; i<length;++i)
+            {
+                result.add(nums[i]);
+                backtracing(results, result, nums, length, k-1, i+1);
+                result.remove(result.size() - 1);
+            }
+        }
+    }
 
 
 
