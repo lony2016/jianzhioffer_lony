@@ -836,7 +836,6 @@ public class Solution {
         return res;
     }
 
-<<<<<<< HEAD
     //
     public int calculate(String s) {
         if(s == null)
