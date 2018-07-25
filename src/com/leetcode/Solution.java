@@ -1,5 +1,7 @@
 package com.leetcode;
 
+import org.w3c.dom.stylesheets.LinkStyle;
+
 import java.util.*;
 
 /**
@@ -744,10 +746,10 @@ public class Solution {
 
     //104. Maximum Depth of Binary Tree
     public class TreeNode {
-       int val;
-       TreeNode left;
-       TreeNode right;
-       TreeNode(int x) { val = x; }
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(int x) { val = x; }
     }
     public int maxDepth(TreeNode root) {
         if(root == null)
@@ -761,12 +763,12 @@ public class Solution {
     //111. Minimum Depth of Binary Tree
     public int minDepth(TreeNode root) {
         /**if(root == null)
-            return 0;
+         return 0;
 
-        int leftHeight = minDepth(root.left);
-        int rightHeight = minDepth(root.right);
-        int treeHeight = leftHeight<rightHeight?leftHeight:rightHeight;
-        return treeHeight;*/
+         int leftHeight = minDepth(root.left);
+         int rightHeight = minDepth(root.right);
+         int treeHeight = leftHeight<rightHeight?leftHeight:rightHeight;
+         return treeHeight;*/
         //当一个节点只有一个自节点时，左子树的高度为1，右子树的高度为0，
         // 但其最小树的高度是从叶子节点到根节点，右子树没有叶子节点，所以，树的高度还是2，而不是1，所以上述代码就不对了
         if(root == null)
@@ -834,55 +836,102 @@ public class Solution {
         return res;
     }
 
-    //78. Subsets
-    public List<List<Integer>> subsets(int[] nums) {
-        int len = -1;
-        List<List<Integer>> results = new ArrayList<>();
-        if(nums == null || (len = nums.length) == 0)
-        {
-            return results;
-        }
-        List<Integer> result = new ArrayList<>();
-        for(int i=0; i<=len; ++i)
-        {
-            backtracing(results, result, nums, len, i, 0);
-        }
+    //
+    public int calculate(String s) {
+        if(s == null)
+            throw new IllegalArgumentException("String is null");
+        int sum = 0;
+        int tempSum = 0;
+        int num;
 
-        return results;
-
-
-    }
-    public void backtracing(List<List<Integer>> results, List<Integer> result, int[] nums, int length, int k, int start)
-    {
-        if(k < 0)
+        char[] ch = s.toCharArray();
+        int length = ch.length;
+        char op = '+';
+        for(int i=0; i<length;)
         {
-            return;
-        }
-        else if(k == 0)
-        {
-            results.add(new ArrayList<Integer>(result));
-        }
-        else
-        {
-            for(int i=start; i<length;++i)
+            if(ch[i]>='0' && ch[i]<= '9')
             {
-                result.add(nums[i]);
-                backtracing(results, result, nums, length, k-1, i+1);
-                result.remove(result.size() - 1);
+                num = ch[i] - '0';
+                while(++i<length && ch[i]>='0' && ch[i] <= '9')
+                {//代码一直有问题在于if和else中都有++i操作，所以，再加上for循环中的++i，所以i每次是+2跳动的，所以就有问题了
+                    num = num*10 + ch[i] - '0';//大于10的数的处理
+//                    ++i;
+                }
+
+                switch(op)
+                {
+                    case '+':
+                        tempSum += num;
+                        break;
+                    case '-':
+                        tempSum -= num;
+                        break;
+                    case '*':
+                        tempSum *= num;
+                        break;
+                    case '/':
+                        tempSum /= num;
+                        break;
+                }
+            }
+            else
+            {
+                if(ch[i] == ' ')//忘记判断空格了
+                {
+                    ++i;
+                    continue;
+                }
+
+                if(ch[i] == '+' || ch[i] == '-')
+                {
+                    sum += tempSum;
+                    tempSum = 0;
+                }
+                //非+-运算，暂时不把当前的值加到结果中
+                op = ch[i++];//
+            }
+
+        }
+//        return sum;
+        return sum + tempSum;//加上tempSum是加上最后一次的算式的计算结果
+    }
+
+    //
+    public int scores(int[] score, int[] judge_type, int n)
+    {
+        if(score == null || judge_type == null || n<=0
+                || score.length != n || judge_type.length != n)
+            throw new IllegalArgumentException("input is invalid");
+        int expertCount = 0;//专家人数
+        int commomCount = 0;//大众评委人数
+        int expertSum = 0;
+        int commomSum = 0;
+        int expertAvg = 0;
+        int commomAvg = 0;
+        for(int i=0; i<n; ++i)
+        {
+            if(judge_type[i] == 1)
+            {
+                expertCount += 1;
+                expertSum += score[i];
+            }
+            else if(judge_type[i] == 2)
+            {
+                commomCount += 1;
+                commomSum += score[i];
             }
         }
-    }
+        System.out.println(commomCount);
+        if(expertCount > 0)
+            expertAvg = expertSum/expertCount;
+        if(commomCount > 0)
+            commomAvg = commomSum/commomCount;
 
-
-
-
-
-    public static void main(String[] args) {
-        Solution su = new Solution();
-        int nums1[] = {2, 1, 5, 6, 7 ,8};
-        int nums2[] = {2, 8, 8, 8, 8 ,9};
-        System.out.println(su.searchRange(nums2,8));
-
+        return commomCount>0?(int)(expertAvg*0.6 + commomAvg*0.4):expertAvg;
 
     }
+
+
+
+
 }
