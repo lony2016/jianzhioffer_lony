@@ -1,5 +1,6 @@
 package com.exam;
 
+import java.util.HashMap;
 import java.util.Scanner;
 
 /**
@@ -53,4 +54,6 @@ public class Main {
 
         return count;
     }
+
+
 }
