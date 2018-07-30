@@ -228,7 +228,6 @@ public class MyLinkedList {
 
         return dummy.next;
     }
-Runnable
 
 
 }
