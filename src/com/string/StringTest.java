@@ -27,5 +27,11 @@ public class StringTest {
             System.out.println("arr=null+"+arr+"+hhh");
         if(arr.length == 0)
             System.out.println("arr.length=0" + arr);
+
+        //1.别人面试出现的问题
+        String a = "上海";
+        char[] b = {'上', '海'};
+//        if(a == b)
+//            System.out.println("a == b");//报错，字符型没办法跟字节型进行比较
     }
 }

@@ -1,6 +1,7 @@
 package com.leetcode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -79,6 +80,49 @@ public class Backtrace {
                 result.add(nums[i]);
                 backtracing(results, result, nums, length, k-1, i+1);
                 result.remove(result.size() - 1);
+            }
+        }
+    }
+
+    //90. Subsets II
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+
+        int len;
+        List<List<Integer>> results = new ArrayList<>();
+        if(nums == null ||(len = nums.length) == 0)
+            return results;
+        List<Integer> result = new ArrayList<>();
+        Arrays.sort(nums);
+        for(int i=0; i<=len; ++i)
+        {
+            backtracing2(results, result, nums, len, i, 0);
+        }
+
+        return results;
+    }
+    public void backtracing2(List<List<Integer>> results, List<Integer> result, int[] nums, int len, int k, int start)
+    {
+        if(k < 0)
+            return;
+        else if(k == 0)
+        {
+            results.add(new ArrayList<>(result));
+        }
+        else
+        {
+            //for(i=0; i < len; ++i)
+            for(int i=start;i<len;++i)
+            {
+                //第二种去重复放的位置
+                if(i>start && nums[i-1] == nums[i])
+                    continue;
+
+                result.add(nums[i]);
+                backtracing2(results, result, nums, len, k-1, i+1);
+                result.remove(result.size() - 1);//移除数组中最后一个元素
+                //第一种去重复放的位置
+                // while(i<len-1 && nums[i] == nums[i+1])//去掉重复元素
+                //     i++;
             }
         }
     }
