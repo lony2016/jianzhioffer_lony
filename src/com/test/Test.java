@@ -1,5 +1,6 @@
 package com.test;
 
+
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -99,8 +100,6 @@ public class Test {
     }
 }
 
-
-
 enum Color
 {
     RED(1), BLue(2);
@@ -111,5 +110,42 @@ enum Color
     }
     public int getCode(){
         return code;
+    }
+}
+
+class Father
+{
+    private Inner inner;
+    public class Inner
+    {
+        public Inner()
+        {
+            System.out.println("father's Inner");
+        }
+    }
+    public Father()
+    {
+        System.out.println("father's constructor");
+        inner = new Inner();
+    }
+}
+
+class Son extends Father
+{
+    private Inner inner;
+    public class Inner
+    {
+        public Inner()
+        {
+            System.out.println("Son's Inner");
+        }
+    }
+    public Son()
+    {
+        System.out.println("Son's constructor");
+    }
+
+    public static void main(String[] args) {
+        new Son();
     }
 }

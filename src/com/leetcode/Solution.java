@@ -931,7 +931,100 @@ public class Solution {
 
     }
 
+    //215
+    public int findKthLargest(int[] nums, int k) {
+        int len;
+        if(nums == null || (len=nums.length) == 0)
+            throw new IllegalArgumentException("array is null or its length=0");
+        int low = 0;
+        int high = len - 1;
+        quickSort(nums, 0, len-1);//从大到小排序
+        return nums[k-1];
+    }
+    public void quickSort(int[] nums, int low, int high)
+    {
+        if(low < high)
+        {
+            int i = partion(nums, low, high);
+            //modify :b
+            /**
+             * low不应从0开始，别搞错了，应该从low开始
+             */
+            //quickSort(nums, 0, i-1);
+            quickSort(nums, low, i-1);
+            //modify :e
+            quickSort(nums, i+1, high);
+        }
 
+    }
+    public int partion(int[] nums, int low ,int high)
+    {
+        int pivot = nums[low];
+        int left = low;
+        int right = high;
+        //modify :b
+        /**
+         * 这样写存在的问题是，最后左右指针指向的那个位置的数不知道比pivot大还是小
+         * 不能简单的将其跟low位置上的数进行交换。
+         */
+//        while(left < right)
+//        {
+//
+//            while(left<right && nums[left] >= pivot)
+//                ++left;
+//            while(left<right && nums[right] < pivot)
+//                --right;
+//            if(left < right)
+//            {
+//                int temp = nums[left];
+//                nums[left] = nums[right];
+//                nums[right] = temp;
+//            }
+//        }
+        //代码错误调试不出来是因为，并不是简单的下面一句话就行的
+        //nums[left] = pivot;
+        //而应是交换left和pivot的值
+
+        while(left < right)
+        {
+            //先从后往前扫描，为了先替换low位置上的等于pivot的值，因为此值已经被记录下来
+            while(left < right && nums[right] < pivot)
+                --right;
+            //modify :b
+            //[2,1]数组就出错了
+            //nums[left++] = nums[right];//nums[left]已经被记录下来，可以直接覆盖
+            if(left < right)
+                nums[left++] = nums[right];//nums[left]已经被记录下来，可以直接覆盖
+            //modify :e
+            while(left < right && nums[left] >= pivot)
+                ++left;
+            //modify :b
+            //[2,1]数组就出错了
+            //nums[right--] = nums[left];
+            if(left < right)
+                nums[right--] = nums[left];
+            //modify :e
+        }
+        nums[left] = pivot;
+        //modify:e
+        return left;
+    }
+
+    public static void main(String[] args) {
+        Solution su = new Solution();
+        int[] nums = {3,2,1,5,6,4};
+        for(int i=0; i<nums.length; ++i)
+        {
+            System.out.print(nums[i]+",");
+        }
+        System.out.println();
+        su.findKthLargest(nums, 1);
+        for(int i=0; i<nums.length; ++i)
+        {
+            System.out.print(nums[i]+",");
+        }
+
+    }
 
 
 }

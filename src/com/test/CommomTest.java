@@ -45,7 +45,7 @@ class FinallyTest4 {
 
 class FinallyTest
 {
-    public static int aMethod(int i)throws Exception
+    public synchronized int aMethod(int i)throws Exception
     {
         try{
             return 10 / i;
@@ -58,17 +58,19 @@ class FinallyTest
         }
     }
 
-    public static void main(String [] args)
-    {
+    public static void main(String [] args) throws Exception {
         try
         {
-            aMethod(0);
+//            aMethod(0);
         }
         catch (Exception ex)
         {
             System.out.printf("exception in main");
         }
         System.out.printf("finished");
+
+        FinallyTest te = new FinallyTest();
+        te.aMethod(2);
         
     }
 }
